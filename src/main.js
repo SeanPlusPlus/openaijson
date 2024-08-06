@@ -18,6 +18,9 @@ const MathResponse = z.object({
 const client = new OpenAI({ apiKey })
 
 const main = async () => {
+
+  const content = "solve 8x + 3 = 21"
+
   const completion = await client.beta.chat.completions.parse({
     model: 'gpt-4o-2024-08-06',
     messages: [
@@ -25,14 +28,15 @@ const main = async () => {
         "role": "system",
         "content": "You are a helpful math tutor. Only use the schema for math responses.",
       },
-      { "role": "user", "content": "solve 8x + 3 = 21" },
+      { "role": "user", "content": content },
     ],
     response_format: zodResponseFormat(MathResponse, 'mathResponse'),
   })
 
   const message = completion.choices[0]?.message
   if (message?.parsed) {
-    console.log('steps', message.parsed.steps.length)
+    console.log('content:', content)
+    console.log('total steps:', message.parsed.steps.length)
     console.log(message.parsed.steps)
     console.log(message.parsed.final_answer)
   } else {
