@@ -28,4 +28,5 @@ Run the program
 npm run start
 ```
 
-<img width="1057" alt="image" src="https://github.com/user-attachments/assets/229269d2-b963-4ca5-a2d2-72058604a8c9">
+<img width="963" alt="image" src="https://github.com/user-attachments/assets/72720657-e8ce-482e-b691-070d74212157">
+
