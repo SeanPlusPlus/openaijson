@@ -27,3 +27,5 @@ Run the program
 ```
 npm run start
 ```
+
+<img width="1057" alt="image" src="https://github.com/user-attachments/assets/229269d2-b963-4ca5-a2d2-72058604a8c9">
