@@ -34,6 +34,7 @@ const main = async () => {
   })
 
   const message = completion.choices[0]?.message
+  
   if (message?.parsed) {
     console.log('content:', content)
     console.log('total steps:', message.parsed.steps.length)
