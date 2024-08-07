@@ -15,25 +15,33 @@ const MathResponse = z.object({
   final_answer: z.string(),
 })
 
+type MathResponseType = z.infer<typeof MathResponse>
+
+interface CompletionChoice {
+  message?: {
+    parsed?: MathResponseType
+    refusal?: string
+  }
+}
+
 const client = new OpenAI({ apiKey })
 
 const main = async () => {
-
   const content = "solve 8x + 3 = 21"
 
   const completion = await client.beta.chat.completions.parse({
     model: 'gpt-4o-2024-08-06',
     messages: [
       {
-        "role": "system",
-        "content": "You are a helpful math tutor. Only use the schema for math responses.",
+        role: "system",
+        content: "You are a helpful math tutor. Only use the schema for math responses.",
       },
-      { "role": "user", "content": content },
+      { role: "user", content: content },
     ],
     response_format: zodResponseFormat(MathResponse, 'mathResponse'),
   })
 
-  const message = completion.choices[0]?.message
+  const message = (completion.choices[0] as CompletionChoice)?.message
 
   if (message?.parsed) {
     console.log('content:', content)
@@ -41,7 +49,7 @@ const main = async () => {
     console.log(message.parsed.steps)
     console.log(message.parsed.final_answer)
   } else {
-    console.log(message.refusal)
+    console.log(message?.refusal)
   }
 }
 
