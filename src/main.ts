@@ -32,16 +32,16 @@ interface CompletionChoice {
 
 // Main Function Definition
 const main = async () => {
-  const content = "solve 8x + 3 = 21"
+  const input = "8x + 3 = 27"
 
   const completion = await client.beta.chat.completions.parse({
     model: 'gpt-4o-2024-08-06',
     messages: [
       {
         role: "system",
-        content: "You are a helpful math tutor. Only use the schema for math responses.",
+        content: "You are a helpful math tutor. Only use the schema for math responses. If the content does not appear to be a math problem, throw an error.",
       },
-      { role: "user", content: content },
+      { role: "user", content: input },
     ],
     response_format: zodResponseFormat(MathResponse, 'mathResponse'),
   })
@@ -49,8 +49,7 @@ const main = async () => {
   const message = (completion.choices[0] as CompletionChoice)?.message
 
   if (message?.parsed) {
-    console.log('content:', content)
-    console.log('total steps:', message.parsed.steps.length)
+    console.table({ input, total_steps: message.parsed.steps.length})
     console.log(message.parsed.steps)
     console.log(message.parsed.final_answer)
   } else {
