@@ -3,8 +3,13 @@ import OpenAI from 'openai'
 import { zodResponseFormat } from 'openai/helpers/zod'
 import { z } from 'zod'
 
+// Environment Variables
 const { env: { OPENAI_API_KEY: apiKey } } = process
 
+// Client Initialization
+const client = new OpenAI({ apiKey })
+
+// Zod Schema Definitions
 const Step = z.object({
   explanation: z.string(),
   output: z.string(),
@@ -15,6 +20,7 @@ const MathResponse = z.object({
   final_answer: z.string(),
 })
 
+// TypeScript Type Inference and Interface Definitions
 type MathResponseType = z.infer<typeof MathResponse>
 
 interface CompletionChoice {
@@ -24,8 +30,7 @@ interface CompletionChoice {
   }
 }
 
-const client = new OpenAI({ apiKey })
-
+// Main Function Definition
 const main = async () => {
   const content = "solve 8x + 3 = 21"
 
